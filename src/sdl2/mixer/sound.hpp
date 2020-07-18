@@ -5,15 +5,16 @@
 #include <SDL_mixer.h>
 #include <utility>
 #include <chrono>
+#include <string>
 
 namespace sdl2::mixer
 {
 	class Sound
 	{
 	public:
-		constexpr Sound()noexcept = default;
-		Sound(const char* file)noexcept
-			: m_Sound(Mix_LoadWAV(file))
+		[[nodiscard]] constexpr Sound()noexcept = default;
+		[[nodiscard]] Sound(const std::string& file)noexcept
+			: m_Sound(Mix_LoadWAV(file.c_str()))
 		{}
 
 		~Sound()noexcept
@@ -25,7 +26,7 @@ namespace sdl2::mixer
 		}
 
 		Sound(Sound&) = delete;
-		Sound(Sound&& s) noexcept : m_Sound(s.m_Sound) { s.m_Sound = nullptr; };
+		[[nodiscard]] Sound(Sound&& s) noexcept : m_Sound(s.m_Sound) { s.m_Sound = nullptr; };
 
 		Sound& operator=(Sound&) = delete;
 		Sound& operator=(Sound&& other) noexcept

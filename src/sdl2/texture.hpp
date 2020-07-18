@@ -35,8 +35,8 @@ namespace sdl2
 		{}
 
 #ifdef SDL2_ENABLE_IMG
-		Texture(SDL_Renderer* renderer, const char* file)noexcept
-			: m_Texture(IMG_LoadTexture(renderer, file))
+		Texture(SDL_Renderer* renderer, const std::string& file)noexcept
+			: m_Texture(IMG_LoadTexture(renderer, file.c_str()))
 		{}
 #endif
 		~Texture()noexcept

@@ -266,7 +266,7 @@ namespace sdl2
 
 #ifdef SDL2_ENABLE_IMG
 		bool savePNG(const std::string& file) { return IMG_SavePNG(m_Surface, file.c_str()); }
-		bool saveJPG(const std::string& file) { return IMG_SaveJPG(m_Surface, file.c_str()); }
+		bool saveJPG(const std::string& file, int quality) { return IMG_SaveJPG(m_Surface, file.c_str(), quality); }
 #endif
 
 	protected:

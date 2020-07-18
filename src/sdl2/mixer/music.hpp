@@ -14,8 +14,8 @@ namespace sdl2::mixer
 	class Music
 	{
 	public:
-		constexpr Music()noexcept = default;
-		Music(const char* file)noexcept : m_Music(Mix_LoadMUS(file)) {}
+		[[nodiscard]] constexpr Music()noexcept = default;
+		[[nodiscard]] Music(const std::string& file)noexcept : m_Music(Mix_LoadMUS(file)) {}
 
 		~Music()noexcept
 		{
@@ -26,10 +26,10 @@ namespace sdl2::mixer
 		}
 
 		Music(Music&) = delete;
-		Music(Music&& m) noexcept : m_Music(m.m_Music) { m.m_Music = nullptr; };
+		[[nodiscard]] Music(Music&& m) noexcept : m_Music(m.m_Music) { m.m_Music = nullptr; };
 
 		Music& operator=(Music&) = delete;
-		Music& operator=(Music&& other) noexcept
+		[[nodiscard]] Music& operator=(Music&& other) noexcept
 		{
 			if (m_Music != other.m_Music)
 			{
@@ -40,21 +40,21 @@ namespace sdl2::mixer
 			return *this;
 		};
 
-		static int getDecodersCount() { return Mix_GetNumChunkDecoders(); }
-		static std::string_view getDecoder(int index) { return Mix_GetMusicDecoder(index); }
-		static bool hasDecoder(const std::string& name) { return Mix_HasMusicDecoder(name.c_str()); }
+		[[nodiscard]] static int getDecodersCount() { return Mix_GetNumChunkDecoders(); }
+		[[nodiscard]] static std::string_view getDecoder(int index) { return Mix_GetMusicDecoder(index); }
+		[[nodiscard]] static bool hasDecoder(const std::string& name) { return Mix_HasMusicDecoder(name.c_str()); }
 
 		static void hook(AdditionalMixerFunction callback, void* arg) { Mix_HookMusic(callback, arg); }
 		static void hook(OnMusicFinish callback) { Mix_HookMusicFinished(callback); }
-		static void* getData() { return Mix_GetMusicHookData(); }
+		[[nodiscard]] static void* getData() { return Mix_GetMusicHookData(); }
 
 		static bool setVolume(int volume) { return Mix_VolumeMusic(volume) == 1; }
 
-		static bool halt() { return Mix_HaltMusic() == 1; }
+		[[nodiscard]] static bool halt() { return Mix_HaltMusic() == 1; }
 
-		static bool fadeOut(std::chrono::milliseconds ms) { return Mix_FadeOutMusic(ms.count()) == 1; }
+		[[nodiscard]] static bool fadeOut(std::chrono::milliseconds ms) { return Mix_FadeOutMusic(ms.count()) == 1; }
 
-		static Mix_Fading getFading() { return Mix_FadingMusic(); }
+		[[nodiscard]] static Mix_Fading getFading() { return Mix_FadingMusic(); }
 
 		static void pause() { Mix_PauseMusic(); }
 
@@ -62,11 +62,11 @@ namespace sdl2::mixer
 
 		static void rewind() { Mix_RewindMusic(); }
 
-		static bool isPaused() { return Mix_PausedMusic(); }
+		[[nodiscard]] static bool isPaused() { return Mix_PausedMusic(); }
 
 		static bool setPosition(double position) { return Mix_SetMusicPosition(position) == 0; }
 
-		static bool isPlaying() { return Mix_PlayingMusic(); }
+		[[nodiscard]] static bool isPlaying() { return Mix_PlayingMusic(); }
 
 		static bool setMusicCMD(const std::string& command) { return Mix_SetMusicCMD(command.c_str()); }
 
@@ -77,7 +77,7 @@ namespace sdl2::mixer
 		bool fadeIn(std::chrono::milliseconds ms, double position, int loops = -1) { return Mix_FadeInMusicPos(m_Music, loops, ms.count(), position) == 1; }
 
 
-		Mix_MusicType getType()const { return Mix_GetMusicType(m_Music); }
+		[[nodiscard]] Mix_MusicType getType()const { return Mix_GetMusicType(m_Music); }
 
 		[[nodiscard]] bool isValid()const noexcept { return m_Music != nullptr; }
 

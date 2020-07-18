@@ -7,7 +7,7 @@
 
 namespace sdl2::mixer
 {
-	using OnChannelFinished = void (*)(int channel);
+	using OnChannelFinished = void (*)(int);
 
 	using ChunkView = Mix_Chunk*;
 
@@ -61,7 +61,7 @@ namespace sdl2::mixer
 
 		void resume() { Mix_Resume(m_ChannelId); }
 
-		bool isPaused() { return Mix_Paused(m_ChannelId); }
+		[[nodiscard]] bool isPaused() { return Mix_Paused(m_ChannelId); }
 
 		static bool reserveChannels(int num)noexcept { return Mix_ReserveChannels(num); }
 
@@ -69,13 +69,13 @@ namespace sdl2::mixer
 
 		static bool haltGroup(int tag) noexcept { return Mix_HaltGroup(tag) == 1; }
 
-		static bool groupAvailable(int tag) noexcept { return Mix_GroupAvailable(tag) != -1; }
+		[[nodiscard]] static bool groupAvailable(int tag) noexcept { return Mix_GroupAvailable(tag) != -1; }
 
-		static int groupCount(int tag) noexcept { return Mix_GroupCount(tag); }
+		[[nodiscard]] static int groupCount(int tag) noexcept { return Mix_GroupCount(tag); }
 
-		static int findOldestSampleInGroup(int tag) noexcept { return Mix_GroupOldest(tag); }
+		[[nodiscard]] static int findOldestSampleInGroup(int tag) noexcept { return Mix_GroupOldest(tag); }
 
-		static int findYoungestSampleInGroup(int tag) noexcept { return Mix_GroupNewer(tag); }
+		[[nodiscard]] static int findYoungestSampleInGroup(int tag) noexcept { return Mix_GroupNewer(tag); }
 
 		static bool fadeOutGroup(int tag, std::chrono::milliseconds ms) noexcept { return Mix_FadeOutGroup(tag, ms.count()); }
 
