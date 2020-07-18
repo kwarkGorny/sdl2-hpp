@@ -228,17 +228,17 @@ namespace sdl2
 
 	namespace video
 	{
-		bool init(const std::string& driverName) { return SDL_VideoInit(driverName.c_str()) == 0; }
+		inline bool init(const std::string& driverName) { return SDL_VideoInit(driverName.c_str()) == 0; }
 
-		void quit() { return SDL_VideoQuit(); }
+		inline void quit() { return SDL_VideoQuit(); }
 
-		const char* getCurrentDriver() { return SDL_GetCurrentVideoDriver(); }
+		[[nodiscard]] inline const char* getCurrentDriver() { return SDL_GetCurrentVideoDriver(); }
 
-		int getDriversCount() { return SDL_GetNumVideoDrivers(); }
+		[[nodiscard]] inline int getDriversCount() { return SDL_GetNumVideoDrivers(); }
 
-		const char* getDriver(int index) { return SDL_GetVideoDriver(index); }
+		[[nodiscard]] inline const char* getDriver(int index) { return SDL_GetVideoDriver(index); }
 
-		std::optional<SDL_Rect> getDisplayBound(int index)
+		[[nodiscard]] inline std::optional<SDL_Rect> getDisplayBound(int index)
 		{
 			SDL_Rect rect;
 			if (SDL_GetDisplayBounds(index, &rect) == 0)
@@ -248,7 +248,7 @@ namespace sdl2
 			return std::nullopt;
 		}
 
-		std::optional<SDL_Rect> getDisplayUsableBound(int index)
+		[[nodiscard]] inline std::optional<SDL_Rect> getDisplayUsableBound(int index)
 		{
 			SDL_Rect rect;
 			if (SDL_GetDisplayUsableBounds(index, &rect) == 0)
@@ -258,7 +258,7 @@ namespace sdl2
 			return std::nullopt;
 		}
 
-		DisplayOrientation getDisplayOrientation(int displayIndex)
+		[[nodiscard]] inline DisplayOrientation getDisplayOrientation(int displayIndex)
 		{
 			return static_cast<DisplayOrientation>(SDL_GetDisplayOrientation(displayIndex));
 		}
