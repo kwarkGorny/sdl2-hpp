@@ -65,23 +65,7 @@ namespace sdl2::mixer
 
 		static bool reserveChannels(int num)noexcept { return Mix_ReserveChannels(num); }
 
-		static bool group(int fromId, int toId, int tag) noexcept { return Mix_GroupChannels(fromId, toId, tag) == 1; }
-
-		static bool haltGroup(int tag) noexcept { return Mix_HaltGroup(tag) == 1; }
-
-		[[nodiscard]] static bool groupAvailable(int tag) noexcept { return Mix_GroupAvailable(tag) != -1; }
-
-		[[nodiscard]] static int groupCount(int tag) noexcept { return Mix_GroupCount(tag); }
-
-		[[nodiscard]] static int findOldestSampleInGroup(int tag) noexcept { return Mix_GroupOldest(tag); }
-
-		[[nodiscard]] static int findYoungestSampleInGroup(int tag) noexcept { return Mix_GroupNewer(tag); }
-
-		static bool fadeOutGroup(int tag, std::chrono::milliseconds ms) noexcept { return Mix_FadeOutGroup(tag, ms.count()); }
-
 		static void onFinish(OnChannelFinished cb)noexcept { Mix_ChannelFinished(cb); }
-
-		static bool setVolume(int volume) { return Mix_Volume(-1, volume) == 1; }
 
 		[[nodiscard]] static constexpr sdl2::mixer::Channel Any() { return sdl2::mixer::Channel(-1); }
 

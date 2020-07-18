@@ -38,7 +38,7 @@ namespace sdl2::mixer
 			}
 			other.m_Sound = nullptr;
 			return *this;
-		};
+		}
 
 		sdl2::mixer::Channel play(int loops = 1, sdl2::mixer::Channel wantedChannel = sdl2::mixer::Channel::Any()) 
 		{
