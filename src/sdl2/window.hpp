@@ -11,6 +11,36 @@ namespace sdl2
 {
 	using WindowView = SDL_Window*;
 
+	enum class WindowFlags : std::uint32_t
+	{
+		FULLSCREEN = SDL_WINDOW_FULLSCREEN,
+		OPENGL = SDL_WINDOW_OPENGL,
+		SHOWN = SDL_WINDOW_SHOWN,
+		HIDDEN = SDL_WINDOW_HIDDEN,
+		BORDERLESS = SDL_WINDOW_BORDERLESS,
+		RESIZABLE = SDL_WINDOW_RESIZABLE,
+		MINIMIZED = SDL_WINDOW_MINIMIZED,
+		MAXIMIZED = SDL_WINDOW_MAXIMIZED,
+		GRABBED = SDL_WINDOW_INPUT_GRABBED,
+		INPUT_FOCUS = SDL_WINDOW_INPUT_FOCUS,
+		MOUSE_FOCUS = SDL_WINDOW_MOUSE_FOCUS,
+		FULLSCREEN_DESKTOP = SDL_WINDOW_FULLSCREEN_DESKTOP,
+		FOREIGN = SDL_WINDOW_FOREIGN,
+		ALLOW_HIGHDPI = SDL_WINDOW_ALLOW_HIGHDPI,
+		MOUSE_CAPTURE = SDL_WINDOW_MOUSE_CAPTURE,
+		ALWAYS_ON_TOP = SDL_WINDOW_ALWAYS_ON_TOP,
+		SKIP_TASKBAR = SDL_WINDOW_SKIP_TASKBAR,
+		UTILITY = SDL_WINDOW_UTILITY,
+		TOOLTIP = SDL_WINDOW_TOOLTIP,
+		POPUP_MENU = SDL_WINDOW_POPUP_MENU,
+		VULKAN = SDL_WINDOW_VULKAN
+	};
+
+	constexpr inline WindowFlags operator|(WindowFlags a, WindowFlags b)noexcept
+	{
+		return static_cast<WindowFlags>(static_cast<std::uint32_t>(a) | static_cast<std::uint32_t>(b));
+	}
+
 	class Window
 	{
 	public:
@@ -20,8 +50,8 @@ namespace sdl2
 
 		[[nodiscard]] constexpr Window()noexcept = default;
 
-		[[nodiscard]] Window(const std::string& title, int x, int y, int w, int h, Uint32 flags)noexcept
-			: m_Window(SDL_CreateWindow(title.c_str(), x, y, w, h, flags))
+		[[nodiscard]] Window(const std::string& title, int x, int y, int w, int h, WindowFlags flags)noexcept
+			: m_Window(SDL_CreateWindow(title.c_str(), x, y, w, h, static_cast<std::uint32_t>(flags)))
 		{}
 
 		[[nodiscard]] explicit Window(const void* driverDependentWindowData)noexcept : m_Window(SDL_CreateWindowFrom(driverDependentWindowData)) {}
@@ -153,15 +183,15 @@ namespace sdl2
 
 		bool setInputFocus() { return SDL_SetWindowInputFocus(m_Window) == 0; }
 
-		[[nodiscard]] static SDL_Window* findById(Uint32 id) { return SDL_GetWindowFromID(id); }
+		[[nodiscard]] static WindowView findById(std::uint32_t id) { return SDL_GetWindowFromID(id); }
 
-		[[nodiscard]] Uint32 getId()const { return SDL_GetWindowID(m_Window); }
+		[[nodiscard]] std::uint32_t getId()const { return SDL_GetWindowID(m_Window); }
 
 		[[nodiscard]] void* getData(const std::string& name) { return SDL_GetWindowData(m_Window, name.c_str()); }
 
 		void setData(const std::string& name, void* userdata) { SDL_SetWindowData(m_Window, name.c_str(), userdata); }
 
-		[[nodiscard]] SDL_Surface* getSurface() { return SDL_GetWindowSurface(m_Window); }
+		[[nodiscard]] SurfaceView getSurface() { return SDL_GetWindowSurface(m_Window); }
 
 		bool updateSurface() { return SDL_UpdateWindowSurface(m_Window) == 0; }
 

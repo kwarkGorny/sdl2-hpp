@@ -12,6 +12,19 @@ namespace sdl2
 	using TextureView = SDL_Texture*;
 	using RendererView = SDL_Renderer*;
 
+	enum class RendererFlags : std::uint32_t
+	{
+		SOFTWARE = SDL_RENDERER_SOFTWARE,
+		ACCELERATED = SDL_RENDERER_ACCELERATED,
+		PRESENTVSYNC = SDL_RENDERER_PRESENTVSYNC,
+		TARGETTEXTURE = SDL_RENDERER_TARGETTEXTURE
+	};
+	constexpr inline RendererFlags operator|(RendererFlags a, RendererFlags b)noexcept
+	{
+		return static_cast<RendererFlags>(static_cast<std::uint32_t>(a) | static_cast<std::uint32_t>(b));
+	}
+
+
 	class Renderer
 	{
 	public:
@@ -25,8 +38,8 @@ namespace sdl2
 			: m_Renderer(SDL_CreateSoftwareRenderer(surface.get()))
 		{}
 
-		Renderer(SDL_Window* window, std::uint32_t flags = SDL_RENDERER_ACCELERATED, int index = -1)noexcept
-			: m_Renderer(SDL_CreateRenderer(window, index, flags))
+		Renderer(WindowView window, RendererFlags flags = sdl2::RendererFlags::ACCELERATED, int index = -1)noexcept
+			: m_Renderer(SDL_CreateRenderer(window, index, static_cast<std::uint32_t>(flags)))
 		{}
 
 		~Renderer()noexcept
