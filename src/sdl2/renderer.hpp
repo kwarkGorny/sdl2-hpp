@@ -70,34 +70,34 @@ namespace sdl2
 		[[nodiscard]] static std::optional<SDL_RendererInfo> getInfo(int index)
 		{
 			SDL_RendererInfo info;
-			if (SDL_GetRenderDriverInfo(index, &info) != 0)
+			if (SDL_GetRenderDriverInfo(index, &info) == 0)
 			{
-				return std::nullopt;
+				return info;
 			}
-			return info;
+			return std::nullopt;
 		}
 
 		[[nodiscard]] std::optional<SDL_RendererInfo> getInfo()const
 		{
 			SDL_RendererInfo info;
-			if (SDL_GetRendererInfo(m_Renderer, &info) != 0)
+			if (SDL_GetRendererInfo(m_Renderer, &info) == 0)
 			{
-				return std::nullopt;
+				return info;
 			}
-			return info;
+			return std::nullopt;
 		}
 
 		[[nodiscard]] std::optional<SDL_Point> getOutputSize()const
 		{
 			SDL_Point size;
-			if (SDL_GetRendererOutputSize(m_Renderer, &size.x, &size.y) != 0)
+			if (SDL_GetRendererOutputSize(m_Renderer, &size.x, &size.y) == 0)
 			{
-				return std::nullopt;
+				return size;
 			}
-			return size;
+			return std::nullopt;
 		}
 
-		[[nodiscard]] bool isTargetSupported()const { return SDL_RenderTargetSupported(m_Renderer); }
+		[[nodiscard]] bool isTargetSupported()const { return SDL_RenderTargetSupported(m_Renderer) == SDL_TRUE; }
 
 		[[nodiscard]] SDL_Texture* getTarget()const { return SDL_GetRenderTarget(m_Renderer); }
 
@@ -112,7 +112,7 @@ namespace sdl2
 
 		bool setLogicalSize(int w, int h) noexcept { return SDL_RenderSetLogicalSize(m_Renderer, w, h) == 0; }
 
-		bool isIntegerScale()const noexcept { return SDL_RenderGetIntegerScale(m_Renderer); }
+		bool isIntegerScale()const noexcept { return SDL_RenderGetIntegerScale(m_Renderer) == SDL_TRUE; }
 
 		bool setIntegerScale(bool enable) noexcept { return SDL_RenderSetIntegerScale(m_Renderer, static_cast<SDL_bool>(enable)) == 0; }
 
@@ -138,7 +138,7 @@ namespace sdl2
 
 		bool setClipRect(const SDL_Rect& rect) { return SDL_RenderSetClipRect(m_Renderer, &rect) == 0; }
 
-		bool isClipEnabled() { return SDL_RenderIsClipEnabled(m_Renderer); }
+		bool isClipEnabled() { return SDL_RenderIsClipEnabled(m_Renderer) == SDL_TRUE; }
 
 		[[nodiscard]] SDL_FPoint getScale()
 		{
@@ -161,11 +161,11 @@ namespace sdl2
 		[[nodiscard]] std::optional<SDL_BlendMode> getBlendMode()const noexcept
 		{
 			SDL_BlendMode mode;
-			if (SDL_GetRenderDrawBlendMode(m_Renderer, &mode) != 0)
+			if (SDL_GetRenderDrawBlendMode(m_Renderer, &mode) == 0)
 			{
-				return std::nullopt;
+				return mode;
 			}
-			return mode;
+			return std::nullopt;
 		}
 
 		bool setBlendMode(SDL_BlendMode mode)const noexcept { return SDL_SetRenderDrawBlendMode(m_Renderer, mode) == 0; }

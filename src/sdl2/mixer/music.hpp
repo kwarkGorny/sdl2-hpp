@@ -48,9 +48,9 @@ namespace sdl2::mixer
 		static void hook(OnMusicFinish callback) { Mix_HookMusicFinished(callback); }
 		[[nodiscard]] static void* getData() { return Mix_GetMusicHookData(); }
 
-		static bool setVolume(int volume) { return Mix_VolumeMusic(volume) == 1; }
+		static int setVolume(int volume) { return Mix_VolumeMusic(volume); }
 
-		[[nodiscard]] static bool halt() { return Mix_HaltMusic() == 1; }
+		[[nodiscard]] static void halt() { Mix_HaltMusic(); }
 
 		[[nodiscard]] static bool fadeOut(std::chrono::milliseconds ms) { return Mix_FadeOutMusic(ms.count()) == 1; }
 
@@ -62,20 +62,19 @@ namespace sdl2::mixer
 
 		static void rewind() { Mix_RewindMusic(); }
 
-		[[nodiscard]] static bool isPaused() { return Mix_PausedMusic(); }
+		[[nodiscard]] static bool isPaused() { return Mix_PausedMusic() == 1; }
 
 		static bool setPosition(double position) { return Mix_SetMusicPosition(position) == 0; }
 
-		[[nodiscard]] static bool isPlaying() { return Mix_PlayingMusic(); }
+		[[nodiscard]] static bool isPlaying() { return Mix_PlayingMusic() == 1; }
 
-		static bool setMusicCMD(const std::string& command) { return Mix_SetMusicCMD(command.c_str()); }
+		static bool setMusicCMD(const std::string& command) { return Mix_SetMusicCMD(command.c_str()) == 0; }
 
-		bool play(int loops = -1) { return Mix_PlayMusic(m_Music, loops) == 1; }
+		bool play(int loops = -1) { return Mix_PlayMusic(m_Music, loops) == 0; }
 
-		bool fadeIn(std::chrono::milliseconds ms, int loops = -1) { return Mix_FadeInMusic(m_Music, loops, ms.count()) == 1; }
+		bool fadeIn(std::chrono::milliseconds ms, int loops = -1) { return Mix_FadeInMusic(m_Music, loops, ms.count()) == 0; }
 
-		bool fadeIn(std::chrono::milliseconds ms, double position, int loops = -1) { return Mix_FadeInMusicPos(m_Music, loops, ms.count(), position) == 1; }
-
+		bool fadeIn(std::chrono::milliseconds ms, double position, int loops = -1) { return Mix_FadeInMusicPos(m_Music, loops, ms.count(), position) == 0; }
 
 		[[nodiscard]] Mix_MusicType getType()const { return Mix_GetMusicType(m_Music); }
 

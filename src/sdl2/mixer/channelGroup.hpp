@@ -19,11 +19,13 @@ namespace sdl2::mixer
 		[[nodiscard]] constexpr ChannelGroup& operator=(ChannelGroup&)noexcept = default;
 		[[nodiscard]] constexpr ChannelGroup& operator=(ChannelGroup&&)noexcept = default;
 
-		bool group(sdl2::mixer::Channel fromId, sdl2::mixer::Channel toId) noexcept { return Mix_GroupChannels(fromId.get(), toId.get(), m_Tag) == 1; }
+		int group(sdl2::mixer::Channel fromId, sdl2::mixer::Channel toId) noexcept { return Mix_GroupChannels(fromId.get(), toId.get(), m_Tag); }
 
-		bool halt() noexcept { return Mix_HaltGroup(m_Tag) == 1; }
+		void halt() noexcept { Mix_HaltGroup(m_Tag); }
 
 		[[nodiscard]] bool isAvailable() noexcept { return Mix_GroupAvailable(m_Tag) != -1; }
+
+		[[nodiscard]] int firstAvaible() noexcept { return Mix_GroupAvailable(m_Tag); }
 
 		[[nodiscard]] int count() noexcept { return Mix_GroupCount(m_Tag); }
 
@@ -31,7 +33,7 @@ namespace sdl2::mixer
 
 		[[nodiscard]] int findYoungestSample(int tag) noexcept { return Mix_GroupNewer(m_Tag); }
 
-		bool fadeOut(std::chrono::milliseconds ms) noexcept { return Mix_FadeOutGroup(m_Tag, ms.count()); }
+		int fadeOut(std::chrono::milliseconds ms) noexcept { return Mix_FadeOutGroup(m_Tag, ms.count()); }
 
 	protected:
 		int m_Tag;

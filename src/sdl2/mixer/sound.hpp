@@ -60,7 +60,7 @@ namespace sdl2::mixer
 			return sdl2::mixer::Channel{ Mix_FadeInChannelTimed(wantedChannel.get(), m_Sound, loops, ms.count(), ticks.count()) };
 		}
 
-		bool setVolume(int volume) { return Mix_VolumeChunk(m_Sound, volume) == 1; }
+		int setVolume(int volume) { return Mix_VolumeChunk(m_Sound, volume); }
 
 		[[nodiscard]] bool isValid()const noexcept { return m_Sound != nullptr; }
 

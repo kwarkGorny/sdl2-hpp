@@ -22,16 +22,16 @@ namespace sdl2
 
 		constexpr Texture()noexcept = default;
 
-		Texture(SDL_Renderer* renderer, SDL_Surface* surface)noexcept
-			: m_Texture(SDL_CreateTextureFromSurface(renderer, surface))
+		Texture(sdl2::Renderer& renderer, SurfaceView surface)noexcept
+			: m_Texture(SDL_CreateTextureFromSurface(renderer.get(), surface))
 		{}
 
-		Texture(SDL_Renderer* renderer, sdl2::Surface& surface)noexcept
-			: m_Texture(SDL_CreateTextureFromSurface(renderer, surface.get()))
+		Texture(sdl2::Renderer& renderer, sdl2::Surface& surface)noexcept
+			: m_Texture(SDL_CreateTextureFromSurface(renderer.get(), surface.get()))
 		{}
 
-		Texture(SDL_Renderer* renderer, std::uint32_t format, int access, int w, int h) 
-			: m_Texture(SDL_CreateTexture(renderer, format, access, w, h))
+		Texture(sdl2::Renderer& renderer, std::uint32_t format, int access, int w, int h)
+			: m_Texture(SDL_CreateTexture(renderer.get(), format, access, w, h))
 		{}
 
 #ifdef SDL2_ENABLE_IMG

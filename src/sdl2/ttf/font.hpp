@@ -85,12 +85,12 @@ namespace sdl2::ttf
 
 		[[nodiscard]] int getLineSkip()const noexcept { return TTF_FontLineSkip(m_Font); }
 
-		[[nodiscard]] bool hasKerning()const noexcept { return TTF_GetFontKerning(m_Font) == 1; }
+		[[nodiscard]] bool hasKerning()const noexcept { return TTF_GetFontKerning(m_Font) != 0; }
 		void setKerning(bool allowed)noexcept { TTF_SetFontKerning(m_Font, static_cast<int>(allowed)); }
 
 		[[nodiscard]] long getFaces()const noexcept { return TTF_FontFaces(m_Font); }
 
-		[[nodiscard]] bool isFaceFixedWidth()const noexcept { return TTF_FontFaceIsFixedWidth(m_Font) > 0; }
+		[[nodiscard]] bool isFaceFixedWidth()const noexcept { return TTF_FontFaceIsFixedWidth(m_Font) != 0; }
 
 		[[nodiscard]] std::string_view getFaceFamilyName()const noexcept { return TTF_FontFaceFamilyName(m_Font); }
 		[[nodiscard]] std::string_view getFaceStyleName()const noexcept { return TTF_FontFaceStyleName(m_Font); }

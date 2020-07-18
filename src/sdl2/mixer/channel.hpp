@@ -29,13 +29,13 @@ namespace sdl2::mixer
 
 		bool unregisterAllEffects()const noexcept { return Mix_UnregisterAllEffects(m_ChannelId) != 0; }
 
-		bool setPanning(std::uint8_t left, std::uint8_t right)const noexcept { return Mix_SetPanning(m_ChannelId, left, right); }
+		bool setPanning(std::uint8_t left, std::uint8_t right)const noexcept { return Mix_SetPanning(m_ChannelId, left, right) != 0; }
 
-		bool setPosition(std::int16_t angle, std::uint8_t distance)const noexcept { return Mix_SetPosition(m_ChannelId, angle, distance); }
+		bool setPosition(std::int16_t angle, std::uint8_t distance)const noexcept { return Mix_SetPosition(m_ChannelId, angle, distance) != 0; }
 
-		bool setDistance(std::uint8_t distance)const noexcept { return Mix_SetDistance(m_ChannelId, distance); }
+		bool setDistance(std::uint8_t distance)const noexcept { return Mix_SetDistance(m_ChannelId, distance) != 0; }
 
-		bool reverseStereo(bool flip)const noexcept { return Mix_SetReverseStereo(m_ChannelId, flip); }
+		bool reverseStereo(bool flip)const noexcept { return Mix_SetReverseStereo(m_ChannelId, flip) != 0; }
 
 		bool group(int tag)const noexcept { return Mix_GroupChannel(m_ChannelId, tag) == 1; }
 

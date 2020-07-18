@@ -41,11 +41,11 @@ namespace sdl2
 
 		inline int get(std::vector<SDL_Event>& events, std::uint32_t minType, std::uint32_t maxType) { return SDL_PeepEvents(events.data(), events.size(), SDL_GETEVENT, minType, maxType); }
 
-		[[nodiscard]] inline bool has() { return SDL_PollEvent(nullptr); }
+		[[nodiscard]] inline bool has() { return SDL_PollEvent(nullptr) == 1; }
 
-		[[nodiscard]] inline bool has(std::uint32_t type) { return SDL_HasEvent(type); }
+		[[nodiscard]] inline bool has(std::uint32_t type) { return SDL_HasEvent(type) == SDL_TRUE; }
 
-		[[nodiscard]] inline bool has(std::uint32_t minType, std::uint32_t maxType) { return SDL_HasEvents(minType, maxType); }
+		[[nodiscard]] inline bool has(std::uint32_t minType, std::uint32_t maxType) { return SDL_HasEvents(minType, maxType) == SDL_TRUE; }
 
 		inline void flush(std::uint32_t type) { SDL_FlushEvent(type); }
 
