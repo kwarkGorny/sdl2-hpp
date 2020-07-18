@@ -15,7 +15,7 @@ namespace sdl2::mixer
 	{
 	public:
 		[[nodiscard]] constexpr Music()noexcept = default;
-		[[nodiscard]] Music(const std::string& file)noexcept : m_Music(Mix_LoadMUS(file)) {}
+		[[nodiscard]] Music(const std::string& file)noexcept : m_Music(Mix_LoadMUS(file.c_str())) {}
 
 		~Music()noexcept
 		{
