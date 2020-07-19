@@ -11,13 +11,12 @@ namespace sdl2
 	{
 		SUCCESS = 1,
 		FILTERED = 0,
-		ERROR = -1,
+		FAIL = -1,
 	};
 
 	enum class EventState : int
 	{
 		QUERY = -1,
-		IGNORE = 0,
 		DISABLE = 0,
 		ENABLE = 1
 	};
