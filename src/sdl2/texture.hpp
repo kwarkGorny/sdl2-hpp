@@ -6,6 +6,7 @@
 	#include <SDL_image.h>
 #endif
 #include <utility>
+#include <memory>
 
 namespace sdl2
 {
@@ -187,4 +188,7 @@ namespace sdl2
 	private:
 		SDL_Texture* m_Texture = nullptr;
 	};
+
+	using SharedTexture = std::shared_ptr<sdl2::Texture>;
+	using UniqueTexture = std::shared_ptr<sdl2::Texture>;
 }
