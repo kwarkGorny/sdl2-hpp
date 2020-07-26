@@ -3,6 +3,11 @@
 #include "surface.hpp"
 #include <SDL_syswm.h>
 #include <SDL_video.h>
+
+#ifdef SDL2_ENABLE_VULKAN
+#include <SDL_vulkan.h>
+#endif
+
 #include <utility>
 #include <optional>
 #include <string>
@@ -212,10 +217,23 @@ namespace sdl2
 
 		[[nodiscard]] WindowView get()const noexcept { return m_Window; }
 
+		void glSwap()noexcept { SDL_GL_SwapWindow(m_Window); }
+		[[nodiscard]] SDL_GLContext createGLContext()noexcept { return SDL_GL_CreateContext(m_Window); }
+		bool makeCurrent(SDL_GLContext context)noexcept { return SDL_GL_MakeCurrent(m_Window, context) == 0; }
+
+#ifdef SDL2_ENABLE_VULKAN
+		[[nodiscard]] std::vector<const char*> getVulkanExtensions()noexcept
+		{
+			unsigned int count = 0u;
+			SDL_Vulkan_GetInstanceExtensions(m_Window, &count, nullptr);
+			std::vector<const char*> extensions(count);
+			SDL_Vulkan_GetInstanceExtensions(m_Window, &count, extensions.data());
+			return extensions;
+		}
+#endif
 	private:
 		SDL_Window* m_Window = nullptr;
 	};
-
 
 	enum class DisplayOrientation
 	{
