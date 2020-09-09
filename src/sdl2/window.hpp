@@ -231,6 +231,15 @@ namespace sdl2
 			return extensions;
 		}
 #endif
+		void reset()noexcept
+		{
+			if (m_Window)
+			{
+				SDL_DestroyWindow(m_Window);
+				m_Window = nullptr;
+			}
+		}
+
 	private:
 		SDL_Window* m_Window = nullptr;
 	};

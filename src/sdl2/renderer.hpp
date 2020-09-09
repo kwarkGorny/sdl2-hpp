@@ -125,7 +125,7 @@ namespace sdl2
 
 		bool setViewport(const SDL_Rect& rect) { return SDL_RenderSetViewport(m_Renderer, &rect) == 0; }
 
-		bool ressetViewport() { return SDL_RenderSetViewport(m_Renderer, nullptr) == 0; }
+		bool resetViewport() { return SDL_RenderSetViewport(m_Renderer, nullptr) == 0; }
 
 		[[nodiscard]] SDL_Rect getClipRect()
 		{
@@ -212,6 +212,16 @@ namespace sdl2
 		[[nodiscard]] bool isValid()const noexcept { return m_Renderer != nullptr; }
 
 		[[nodiscard]] RendererView get()const noexcept { return m_Renderer; }
+
+		void reset()noexcept
+		{
+			if (m_Renderer)
+			{
+				SDL_DestroyRenderer(m_Renderer);
+				m_Renderer = nullptr;
+			}
+		}
+
 	private:
 		SDL_Renderer* m_Renderer = nullptr;
 	};
